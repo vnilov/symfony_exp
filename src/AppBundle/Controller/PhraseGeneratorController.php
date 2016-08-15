@@ -11,7 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 class PhraseGeneratorController extends Controller
 {
     /**
-     * @Route("/phrase_generator", name="get_all_phrases")
+     * @Route("/phrase_generator", name="index_phrase")
+     * @Method("GET")
+     */
+    public function indexAction()
+    {
+        return $this->render('/phrase_generator/index.html.twig');
+    }
+
+    /**
+     * @Route("/phrase_generator/all", name="get_all_phrases")
      * @Method("GET")
      */
     public function getPhrasesAction()
@@ -20,11 +29,12 @@ class PhraseGeneratorController extends Controller
     }
 
     /**
-     * @Route("/phrase_generator/{id}", name="get_one_phrase", requirements={"id": "\d+"})
+     * @Route("/phrase_generator/{id}", name="get_one_phrase",
+     *                                  requirements={"id": "\d+"})
      * @Method("GET")
      */
     public function getPhrase()
     {
-
+        return $this->render('/phrase_generator/one.html.twig');
     }
 }
