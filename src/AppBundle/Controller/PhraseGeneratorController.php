@@ -3,9 +3,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\API\PhraseGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhraseGeneratorController extends Controller
@@ -16,16 +19,10 @@ class PhraseGeneratorController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('/phrase_generator/index.html.twig');
-    }
-
-    /**
-     * @Route("/phrase_generator/all", name="get_all_phrases")
-     * @Method("GET")
-     */
-    public function getPhrasesAction()
-    {
-        return $this->render('/phrase_generator/all.html.twig');
+        $data = PhraseGenerator::i()->getAll();
+        $status_code = $data['code'];
+        $response = new JsonResponse($data['response'], $status_code);
+        $response->send();
     }
 
     /**
@@ -37,4 +34,17 @@ class PhraseGeneratorController extends Controller
     {
         return $this->render('/phrase_generator/one.html.twig');
     }
+    
+    /**
+     * @Route("/phrase_generator/, name="add_one_phrase")
+     * 
+     * @Method("POST")
+     */
+    public function addPhrase(Request $request)
+    {
+        if ($request->has('phrase')) {
+            $res = PhraseGenerator::i()->create($request->get('phrase'));
+        }
+    }
+    
 }

@@ -36,12 +36,12 @@ class PhraseGenerator
     private $error_message = ['error' => ""];
     
     private  function getError($code) {
-        $this->error_message['error'] = $this->errors[$code];
+        $this->error_message['error'] = $this->codes[$code];
         return $this->error_message;
     }
     
     private function setResponse($code) {
-        if (isset($codes[$code])) {
+        if (isset($this->codes[$code])) {
             return ['code' => $code, 'response' => $this->getError($code)];
         } else {
             if (!isset($this->data)) {
@@ -79,10 +79,10 @@ class PhraseGenerator
         return $this->setResponse($code);
     }
 
-    function create($data = [])
+    function create($phrase)
     {
-        if (isset($data['phrase']) && strlen($data['phrase']) > 0) {
-            $this->entities[] = $data['phrase'];
+        if (isset($phrase) && strlen($phrase) > 0) {
+            $this->entities[] = $phrase;
             end($this->entities);
             $this->data = key($this->entities);
             $code = 201;
