@@ -11,23 +11,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class PhraseGeneratorController
+ * @package AppBundle\Controller
+ */
 class PhraseGeneratorController extends Controller
 {
     /**
      * @Route("/phrase_generator", name="index_phrase")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        var_dump($request->request->all());
+        if ($request->request->has('phrase')) {
+            $data = PhraseGenerator::i()->create($request->request->get('phrase'));
+            $response = new JsonResponse($data['response'], $data['code']);
+            $response->send();
+            return;
+        }
+
         $data = PhraseGenerator::i()->getAll();
-        $status_code = $data['code'];
-        $response = new JsonResponse($data['response'], $status_code);
+        $response = new JsonResponse($data['response'], $data['code']);
         $response->send();
+
     }
 
     /**
-     * @Route("/phrase_generator/{id}", name="get_one_phrase",
-     *                                  requirements={"id": "\d+"})
+     * @Route("/phrase_generator/{id}", name="get_one_phrase", requirements={"id": "\d+"})
      * @Method("GET")
      */
     public function getPhrase()
@@ -36,15 +47,13 @@ class PhraseGeneratorController extends Controller
     }
     
     /**
-     * @Route("/phrase_generator/, name="add_one_phrase")
-     * 
+     * @Route("/phrase_generator/" , name="add_one_phrase")
+     *
      * @Method("POST")
      */
     public function addPhrase(Request $request)
     {
-        if ($request->has('phrase')) {
-            $res = PhraseGenerator::i()->create($request->get('phrase'));
-        }
+
     }
     
 }
