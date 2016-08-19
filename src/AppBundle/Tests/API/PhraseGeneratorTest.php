@@ -55,11 +55,11 @@ class PhraseGeneratorTest extends \PHPUnit_Framework_TestCase
     }
     
     function testCreate() {
-        $res = $this->generator->create($this->test_data);
+        $res = $this->generator->create($this->test_data['phrase']);
         $this->assertEquals(201, $res['code']);
         $this->assertCount(4, $this->generator->entities);
 
-        $res = $this->generator->create([]);
+        $res = $this->generator->create('');
         $this->assertEquals(422, $res['code']);
     }
     

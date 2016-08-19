@@ -23,17 +23,15 @@ class PhraseGeneratorController extends Controller
      */
     public function indexAction(Request $request)
     {
-        var_dump($request->request->all());
         if ($request->request->has('phrase')) {
             $data = PhraseGenerator::i()->create($request->request->get('phrase'));
             $response = new JsonResponse($data['response'], $data['code']);
-            $response->send();
-            return;
+            return $response->send();
         }
 
         $data = PhraseGenerator::i()->getAll();
         $response = new JsonResponse($data['response'], $data['code']);
-        $response->send();
+        return $response->send();
 
     }
 
