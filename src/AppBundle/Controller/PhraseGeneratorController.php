@@ -39,19 +39,32 @@ class PhraseGeneratorController extends Controller
      * @Route("/phrase_generator/{id}", name="get_one_phrase", requirements={"id": "\d+"})
      * @Method("GET")
      */
-    public function getPhrase()
+    public function getPhrase($id)
     {
-        return $this->render('/phrase_generator/one.html.twig');
+        $data = PhraseGenerator::i()->get($id);
+        $response = new JsonResponse($data['response'], $data['code']);
+        return $response->send();
     }
-    
-    /**
-     * @Route("/phrase_generator/" , name="add_one_phrase")
-     *
-     * @Method("POST")
-     */
-    public function addPhrase(Request $request)
-    {
 
+    /**
+     * @Route("/phrase_generator/{id}", name="update_one_phrase", requirements={"id": "\d+"})
+     * @Method("PUT")
+     */
+    public function updatePhrase(Request $request, $id) {
+        $update_data['phrase'] = $request->get('phrase');
+        $update_data['id'] = $id;
+        $data = PhraseGenerator::i()->update($update_data);
+        $response = new JsonResponse($data['response'], $data['code']);
+        return $response->send();
     }
-    
+
+    /**
+     * @Route("/phrase_generator/{id}", name="remove_one_phrase", requirements={"id": "\d+"})
+     * @Method("DELETE")
+     */
+    public function deletePhrase($id) {
+        $data = PhraseGenerator::i()->delete($id);
+        $response = new JsonResponse($data['response'], $data['code']);
+        return $response->send();
+    }
 }

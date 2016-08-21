@@ -30,7 +30,7 @@ class PhraseGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $res = $this->generator->get($this->id);
         $this->assertEquals(200, $res['code']);
-        $this->assertEquals("test", $res['response']['phrase']);
+        $this->assertEquals("test", $res['response'][$this->id]['phrase']);
 
         $res = $this->generator->get($this->bad_id);
         $this->assertEquals(404, $res['code']);
@@ -67,7 +67,7 @@ class PhraseGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->test_data['id'] = 1;
         $res = $this->generator->update($this->test_data);
         $this->assertEquals(202, $res['code']);
-        $this->assertEquals($this->test_data['phrase'], $this->generator->entities[1]);
+        $this->assertEquals($this->test_data['phrase'], $this->generator->entities[1]['phrase']);
         $this->assertTrue($res['response']);
         
         unset($this->test_data['id']);

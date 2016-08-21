@@ -56,7 +56,7 @@ class PhraseGenerator
     {
         if (isset($id)) {
             if (isset($this->entities[$id])) {
-                $this->data = $this->entities[$id];
+                $this->data = [$id => $this->entities[$id]];
                 $code = 200;
             } else {
                 $code = 404;
@@ -82,7 +82,7 @@ class PhraseGenerator
     function create($phrase)
     {
         if (isset($phrase) && strlen($phrase) > 0) {
-            $this->entities[] = $phrase;
+            $this->entities[] = ['phrase' => $phrase];
             end($this->entities);
             $this->data = key($this->entities);
             $code = 201;
@@ -97,7 +97,7 @@ class PhraseGenerator
     {
         if (isset($data['id'], $data['phrase'])) {
             if (isset($this->entities[$data['id']])) {
-                $this->entities[$data['id']] = $data['phrase'];
+                $this->entities[$data['id']]['phrase'] = $data['phrase'];
                 $this->data = true;
                 $code = 202;
             } else {
