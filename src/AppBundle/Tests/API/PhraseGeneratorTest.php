@@ -18,6 +18,7 @@ class PhraseGeneratorTest extends \PHPUnit_Framework_TestCase
     
     function setUp()
     {
+        
         $this->generator = PhraseGenerator::i();
         $this->generator->entities = [
             ['phrase'=>"qwerty"],

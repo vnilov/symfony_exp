@@ -23,14 +23,17 @@ class PhraseGeneratorController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $generator = $this->get('phrase_generator');
         if ($request->request->has('phrase')) {
-            $data = PhraseGenerator::i()->create($request->request->get('phrase'));
+            $data = $generator->create($request->request->get('phrase'));
             $response = new JsonResponse($data['response'], $data['code']);
+            $response->headers->set('Access-Control-Allow-Origin', '*');
             return $response->send();
         }
 
-        $data = PhraseGenerator::i()->getAll();
+        $data = $generator->getAll();
         $response = new JsonResponse($data['response'], $data['code']);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response->send();
 
     }
@@ -41,7 +44,8 @@ class PhraseGeneratorController extends Controller
      */
     public function getPhrase($id)
     {
-        $data = PhraseGenerator::i()->get($id);
+        $generator = $this->get('phrase_generator');
+        $data = $generator->get($id);
         $response = new JsonResponse($data['response'], $data['code']);
         return $response->send();
     }
@@ -51,9 +55,10 @@ class PhraseGeneratorController extends Controller
      * @Method("PUT")
      */
     public function updatePhrase(Request $request, $id) {
+        $generator = $this->get('phrase_generator');
         $update_data['phrase'] = $request->get('phrase');
         $update_data['id'] = $id;
-        $data = PhraseGenerator::i()->update($update_data);
+        $data = $generator->update($update_data);
         $response = new JsonResponse($data['response'], $data['code']);
         return $response->send();
     }
@@ -63,7 +68,8 @@ class PhraseGeneratorController extends Controller
      * @Method("DELETE")
      */
     public function deletePhrase($id) {
-        $data = PhraseGenerator::i()->delete($id);
+        $generator = $this->get('phrase_generator');
+        $data = $generator->delete($id);
         $response = new JsonResponse($data['response'], $data['code']);
         return $response->send();
     }

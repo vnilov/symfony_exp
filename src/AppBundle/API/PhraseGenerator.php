@@ -16,13 +16,13 @@ class PhraseGenerator
     private $data = null;
     private $codes = [
       500 => "Invalid request params", 
-      404 => "Element not found",
+      404 => "Element(s) not found",
       422 => "Validation error",
       503 => "Something goes wrong"  
     ];
     private static $instance;
     
-    protected function __construct() {}
+    public function __construct() {}
     private function __clone() {}
     private function __wakeup() {}
     
